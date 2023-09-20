@@ -1,25 +1,13 @@
 package com.cst438.controllers;
 
-import java.util.List;
-
+import com.cst438.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
-import com.cst438.domain.Assignment;
-import com.cst438.domain.AssignmentDTO;
-import com.cst438.domain.AssignmentRepository;
-import com.cst438.domain.Course;
-import com.cst438.domain.CourseRepository;
+import javax.persistence.EntityNotFoundException;
+import java.sql.Date;
+import java.util.List;
 
 @RestController
 @CrossOrigin 
@@ -49,6 +37,50 @@ public class AssignmentController {
 		}
 		return result;
 	}
-	
+
+	@PostMapping("/assignment")
+	public ResponseEntity<String> addAssignment() {
+		Assignment assignment = new Assignment();
+		assignment.setName(assignment.getName());
+		assignment.setDueDate(Date.valueOf(assignment.getDueDate().toLocalDate()));
+
+		Course course = courseRepository.findById(assignment.getCourse().getCourse_id())
+				.orElseThrow(() -> new EntityNotFoundException("Course not found"));
+
+		assignment.setCourse(course);
+
+		assignmentRepository.save(assignment);
+
+		return ResponseEntity.ok("Assignment added successfully");
+	}
+
+	@PutMapping("/assignment/{assignmentId}")
+	public ResponseEntity<String> modifyAssignment(@PathVariable int assignmentId) {
+		Assignment assignment = assignmentRepository.findById(assignmentId)
+				.orElseThrow(() -> new EntityNotFoundException("Assignment not found"));
+
+		assignment.setName(assignment.getName());
+		assignment.setDueDate(Date.valueOf(assignment.getDueDate().toLocalDate()));
+
+		Course course = courseRepository.findById(assignment.getCourse().getCourse_id())
+				.orElseThrow(() -> new EntityNotFoundException("Course not found"));
+
+		assignment.setCourse(course);
+
+		assignmentRepository.save(assignment);
+
+		return ResponseEntity.ok("Assignment modified successfully");
+	}
+
+	@DeleteMapping("/assignment/{assignmentId}")
+	public ResponseEntity<String> deleteAssignment(@PathVariable int assignmentId) {
+		Assignment assignment = assignmentRepository.findById(assignmentId)
+				.orElseThrow(() -> new EntityNotFoundException("Assignment not found"));
+
+		assignmentRepository.delete(assignment);
+
+		return ResponseEntity.ok("Assignment deleted successfully");
+	}
+
 	// TODO create CRUD methods for Assignment
 }
