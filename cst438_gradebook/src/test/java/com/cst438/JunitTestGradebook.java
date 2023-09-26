@@ -114,7 +114,6 @@ public class JunitTestGradebook {
 		AssignmentGrade ag = assignmentGradeRepository.findByAssignmentIdAndStudentEmail(1,  "test@csumb.edu");
 		assertEquals(88, ag.getScore());
 
-
 	}
 
 	private static String asJsonString(final Object obj) {
@@ -126,7 +125,7 @@ public class JunitTestGradebook {
 		}
 	}
 
-	private static <T> T fromJsonString(String str, Class<T> valueType) {
+	static <T> T fromJsonString(String str, Class<T> valueType) {
 		try {
 			return new ObjectMapper().readValue(str, valueType);
 		} catch (Exception e) {
