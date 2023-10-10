@@ -54,11 +54,11 @@ public class RegistrationServiceMQ implements RegistrationService {
 	 */
 	@Override
 	public void sendFinalGrades(int course_id, FinalGradeDTO[] grades) {
-		 
 		System.out.println("Start sendFinalGrades "+course_id);
 
-		//TODO convert grades to JSON string and send to registration service
-		
+		String gradesJson = asJsonString(grades);
+
+		rabbitTemplate.convertAndSend(registrationQueue.getName(), gradesJson);
 	}
 	
 	private static String asJsonString(final Object obj) {
