@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.context.annotation.Bean;
 
 import com.cst438.domain.Course;
 import com.cst438.domain.FinalGradeDTO;
@@ -37,6 +38,11 @@ public class RegistrationServiceMQ implements RegistrationService {
 
 	Queue registrationQueue = new Queue("registration-queue", true);
 
+	@Bean
+	Queue createQueue(){
+		return new Queue("gradebook-queue");
+	}
+
 	/*
 	 * Receive message for student added to course
 	 */
@@ -54,11 +60,11 @@ public class RegistrationServiceMQ implements RegistrationService {
 	 */
 	@Override
 	public void sendFinalGrades(int course_id, FinalGradeDTO[] grades) {
-		 
 		System.out.println("Start sendFinalGrades "+course_id);
 
-		//TODO convert grades to JSON string and send to registration service
-		
+		String gradesJson = asJsonString(grades);
+
+		rabbitTemplate.convertAndSend(registrationQueue.getName(), gradesJson);
 	}
 	
 	private static String asJsonString(final Object obj) {
