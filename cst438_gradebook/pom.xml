@@ -42,6 +42,35 @@
     		<artifactId>spring-boot-devtools</artifactId>
     		<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+		</dependency>
 		
 		<!-- for rabbitmq -->
 		<dependency>
@@ -77,7 +106,12 @@
 			<artifactId>selenium-chrome-driver</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- end selenium -->
+        <dependency>
+            <groupId>net.officefloor.tutorial</groupId>
+            <artifactId>GwtService</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+        <!-- end selenium -->
 	</dependencies>
 
 	<build>
